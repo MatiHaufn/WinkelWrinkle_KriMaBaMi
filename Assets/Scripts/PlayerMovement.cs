@@ -13,10 +13,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool IsGrounded;
     [SerializeField] private bool IsJumping;
 
-    Animator currentAnimator;
-
     [SerializeField] Animator animator2D;
     [SerializeField] Animator animator3D;
+
+    Animator currentAnimator;
 
     private Rigidbody _rigidbody;
     float turnSmooooothVelocity;
@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     float maxIdleTime = 20;
     int idleState = 0;
 
-    // => Zusammenfassen
     private void Awake() => _rigidbody = GetComponent<Rigidbody>();
 
     private void Start()
@@ -66,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
 
     void IdleAnimation()
     {
-
         if (horizontal != 0 || vertical != 0)
         {
             currentAnimator.SetFloat("speed", 1);
@@ -96,9 +94,6 @@ public class PlayerMovement : MonoBehaviour
             idleTimer = 0;
             idleState = 0; 
         }
-        
-        
-
     }
 
     void Movement()

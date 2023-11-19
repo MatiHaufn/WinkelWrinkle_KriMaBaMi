@@ -3,17 +3,16 @@ using UnityEngine;
 
 public class MovingObject : MonoBehaviour
 {
-    [Tooltip("Grundgeschwindigkeit")]
-    [SerializeField] float forwardSpeed;
     [Tooltip("Wenn sich das Objekt unterschiedlich schnell vor- und rückwärts bewegen soll, dann anhaken")]
     [SerializeField]bool differentBackSpeed = false; 
+    [SerializeField] bool isRotating = false; 
+    [Tooltip("Grundgeschwindigkeit")]
+    [SerializeField] float forwardSpeed;
     [Tooltip("Nur, wenn er auf dem Rückweg eine andere Geschwindigkeit annehmen soll! (Dafür 'differentBackSpeed' ankreuzen)")]
     [SerializeField] float backwardSpeed;
+    [SerializeField] float rotatingSpeed; 
+    
     float currentSpeed;
-    Rigidbody myRigidbody;
-    [SerializeField] Quaternion targetRotation;
-    [SerializeField] float angle; 
-
 
     [SerializeField] List<Transform> waypoints = new List<Transform>(); 
     int w = 0;
@@ -28,10 +27,6 @@ public class MovingObject : MonoBehaviour
     void Start()
     {
         currentSpeed = forwardSpeed;
-        if (this.gameObject.GetComponent<Rigidbody>() != null)
-        {
-            myRigidbody = GetComponent<Rigidbody>();
-        }
     }
    
     void Update()
@@ -81,23 +76,20 @@ public class MovingObject : MonoBehaviour
         if (isMoving)
         {
             gameObject.transform.position = Vector3.MoveTowards(transform.position, waypoints[w].transform.position, Time.deltaTime * currentSpeed);
-            /*
-            if (this.gameObject.GetComponent<Rigidbody>() != null)
-            {
-                if(w == 0)
-                {
-                    gameObject.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, targetRotation, angle * Time.deltaTime * currentSpeed);
-                    //myRigidbody.AddTorque(Vector3.forward); 
-                }
-                else if(w == 1)
-                {
-                   //myRigidbody.AddTorque(Vector3.back); 
-                   //gameObject.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, targetRotation, angle);
 
+            if (isRotating)
+            {
+                float rotationSpeed = Time.deltaTime * currentSpeed * rotatingSpeed;
+
+                if (w == 0)
+                {
+                    gameObject.transform.Rotate(Vector3.forward, rotationSpeed);
+                }
+                else if (w == 1)
+                {
+                    gameObject.transform.Rotate(Vector3.back, rotationSpeed);
                 }
             }
-        */
         }
-        
     }
 }

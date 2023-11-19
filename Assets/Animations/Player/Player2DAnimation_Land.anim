@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Player2DAnimation_Land
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -18,19 +18,19 @@ AnimationClip:
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
-      value: {fileID: 21300000, guid: f65948a381cdb6e498801aaf274ecd68, type: 3}
-    - time: 0.35
       value: {fileID: 21300000, guid: c12f2dd68b1d10149bbdc635d38882bd, type: 3}
-    - time: 0.4
+    - time: 0.05
       value: {fileID: 21300000, guid: 7884cc1694022a347b2290dff9ec50c8, type: 3}
-    - time: 0.56666666
+    - time: 0.21666667
       value: {fileID: 21300000, guid: 7884cc1694022a347b2290dff9ec50c8, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -45,8 +45,9 @@ AnimationClip:
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: f65948a381cdb6e498801aaf274ecd68, type: 3}
     - {fileID: 21300000, guid: c12f2dd68b1d10149bbdc635d38882bd, type: 3}
     - {fileID: 21300000, guid: 7884cc1694022a347b2290dff9ec50c8, type: 3}
     - {fileID: 21300000, guid: 7884cc1694022a347b2290dff9ec50c8, type: 3}
@@ -55,7 +56,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5833333
+    m_StopTime: 0.23333333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

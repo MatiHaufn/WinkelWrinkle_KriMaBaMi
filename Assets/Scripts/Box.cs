@@ -43,7 +43,7 @@ public class Box : MonoBehaviour
             GameManager.instance.Player.transform.SetParent(this.transform);
             movingBox = true;
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetButtonUp("PrimaryButton"))
             {
                 grab = false;
             }
@@ -92,7 +92,7 @@ public class Box : MonoBehaviour
                 }
                 transform.position = movePoint.position;
 
-                if (Input.GetMouseButton(0))
+                if (Input.GetButton("PrimaryButton")) 
                 {
                     movingBox = true;
                     PushDirection(lastdirection);
@@ -190,7 +190,7 @@ public class Box : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetButton("PrimaryButton"))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;

@@ -35,7 +35,7 @@ public class Box2D : MonoBehaviour
             GameManager.instance.Player.transform.SetParent(this.transform);
             movingBox = true;
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetButtonUp("PrimaryButton"))
             {
                 grab = false;
             }
@@ -78,7 +78,7 @@ public class Box2D : MonoBehaviour
                 }
                 transform.position = movePoint.position;
 
-                if (Input.GetMouseButton(0))
+                if (Input.GetButton("PrimaryButton"))
                 {
                     movingBox = true;
                     PushDirection(lastdirection);
@@ -149,7 +149,7 @@ public class Box2D : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetButton("PrimaryButton"))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -163,7 +163,7 @@ public class Box2D : MonoBehaviour
             }
         }
 
-        if (other.gameObject.tag == "Exit2D" && Input.GetKey(KeyCode.E))
+        if (other.gameObject.tag == "Exit2D" && Input.GetButton("PrimaryButton"))
         {
             GameManager.instance.Player.transform.SetParent(null);
             plaettenManager.GetComponent<PlaettenBox>().box3D.transform.position = other.gameObject.transform.position + (Vector3.back * 1.5f);

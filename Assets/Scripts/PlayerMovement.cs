@@ -10,13 +10,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float airAcceleration = 10f;
     [SerializeField] float airDeceleration = 10f;
     [SerializeField] float turnSmoothTime = 0.1f;
-    [SerializeField] private bool IsGrounded;
-    [SerializeField] private bool IsJumping;
+    [SerializeField] float moveSpeed = 2; 
+    [SerializeField] private GroundTest groundTest; 
 
     [SerializeField] Animator animator2D;
     [SerializeField] Animator animator3D;
 
     Animator currentAnimator;
+
+    private bool isGrounded;
 
     private Rigidbody _rigidbody;
     float turnSmooooothVelocity;
@@ -38,29 +40,28 @@ public class PlayerMovement : MonoBehaviour
     {
         Jumping();
         IdleAnimation();
+        isGrounded = groundTest.IsGrounded(); 
     }
     private void FixedUpdate()
     {
         Movement();
     }
 
+    public void TriggerLandAnimation()
+    {
+        currentAnimator.SetBool("JumpStart", false);
+    }
+
     void Jumping()
     {
-        if (Input.GetButtonDown("Jump") && IsGrounded == true && IsJumping == false)
+        if (isGrounded == true)
         {
-            //FindObjectOfType<AudioManager>().Play("Theme");
-            currentAnimator.SetBool("JumpStart", true);
-            IsGrounded = false;
-            IsJumping = true; 
-            _rigidbody.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
+            if (Input.GetButtonDown("Jump"))
+            {
+                currentAnimator.SetBool("JumpStart", true);
+                _rigidbody.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
+            }
         }
-
-        if (IsGrounded == true)
-        {
-            IsJumping = false;
-            currentAnimator.SetBool("JumpStart", false);
-        }
-
     }
 
     void IdleAnimation()
@@ -72,7 +73,9 @@ public class PlayerMovement : MonoBehaviour
             idleState = 0;
         }
         else
+        {
             currentAnimator.SetFloat("speed", 0);
+        }
 
         idleTimer += Time.deltaTime;
 
@@ -98,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Movement()
     {
-        Vector3 characterScale = transform.localScale; 
+        Vector3 characterScale = transform.localScale;
         
         if(GameManager.instance.playerFlach == true)
         {
@@ -132,66 +135,33 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.instance.playerMoving)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
 
-            // Wenn Player flach ist, soll er sich nur auf der X-Achse bewegen können und sich nicht rotieren
-            if (GameManager.instance.playerFlach == false)
+            if (GameManager.instance.playerFlach == true)
             {
-                vertical = Input.GetAxisRaw("Vertical");
+                vertical = 0f;
+                transform.rotation = Quaternion.Euler(0f, -180f, 0f);
             }
             else
             {
-                vertical = 0f;
-                transform.rotation = Quaternion.Euler(0f, -180, 0f);
-            }
+                Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-
-            Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized; //normalized = eine Einheit von der Richtung
-
-            if (direction.magnitude >= 0.1f )
-            {
-                Vector3 desiredSpeed;
-                float acceleration;
-
-                if (IsGrounded)
-                {
-                    desiredSpeed = direction * maxGroundSpeed;
-                    acceleration = direction.magnitude != 0 ? groundAcceleration : groundDeceleration;
-                }
-                else
-                {
-                    desiredSpeed = direction * maxAirSpeed;
-                    acceleration = direction.magnitude != 0 ? airAcceleration : airDeceleration;
-                }
-
-                Vector3 playerSpeed = Vector3.Lerp(_rigidbody.velocity, desiredSpeed, acceleration * Time.deltaTime); 
-
-                _rigidbody.velocity = new Vector3(playerSpeed.x, _rigidbody.velocity.y, playerSpeed.z);
-
-             
-
-                if (GameManager.instance.playerFlach == false)
-                {
-                    // mit Atan2 Winkel berechnen und in Deg° angeben          
+                if (direction.magnitude >= 0.1f)
+                {   
                     float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                    // funktion zur SmoothDampANgel damit ich nicht sofort in die Rotation Snap
                     float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmooooothVelocity, turnSmoothTime);
-                    // eigentliche rotation
                     transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 }
             }
-        }
 
+            Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
+            transform.Translate(moveDirection * moveSpeed * Time.deltaTime, Space.World);
+        }
     }
    
 
     private void OnTriggerEnter(Collider other)
-    {
-        //Debug.Log("Ich steh aufmBoden");
-        if(other.isTrigger == false)
-        {
-            IsGrounded = true;
-        }
-                
+    {                
         //Respawn for Player!
         foreach (GameObject checkpoint in GameManager.instance.Checkpoints)
         {

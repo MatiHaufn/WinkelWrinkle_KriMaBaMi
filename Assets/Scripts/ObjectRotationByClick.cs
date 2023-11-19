@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering;
 
 public class ObjectRotationByClick : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class ObjectRotationByClick : MonoBehaviour
     [Tooltip("Um einen wie großen Winkel soll er sich um die z-Achse drehen? (Negative Zahlen gehen auch)")]
     [SerializeField] float zAngle;
     [SerializeField] float rotationSpeed = 4;
+    [SerializeField] bool animationTrigger = false;
+    [SerializeField] Animator animator; 
 
     [Tooltip("Wird für immer in die gleiche Richtung gedreht, oder nicht")]
     [SerializeField] bool infiniteRotationInOneDirection;
@@ -24,6 +27,7 @@ public class ObjectRotationByClick : MonoBehaviour
     List<float> angleList = new List<float>(); 
     Vector3 axis; 
     bool rotationDone = false; 
+
     int negativePositiveSwitch = 1;
 
     [SerializeField] bool switchObject = false; 
@@ -54,8 +58,7 @@ public class ObjectRotationByClick : MonoBehaviour
             else
             {
                 RevealHiddenObjects(); 
-            }
-                    
+            }    
         }
     }
 
@@ -105,24 +108,33 @@ public class ObjectRotationByClick : MonoBehaviour
                 if(hit.collider == this.GetComponent<Collider>())
                 {
                     Debug.Log("hit");
-
-                    if (rotatingProcess == false)
+                    if (animationTrigger && animator != null)
                     {
-                        rotatingProcess = true;
-                        timeractive = true; 
-                        StartCoroutine(RotateMe(axis * negativePositiveSwitch, 1f));
+                        animator.SetBool("hochgeklappt", true); 
+                    }
+                    else
+                    {
 
-                        if (infiniteRotationInOneDirection == false && BackTimerActivated == false) //Die Rotation soll sich hin- und her bewegen
+                        if (rotatingProcess == false)
                         {
-                            foreach (float angle in angleList)
+                            rotatingProcess = true;
+                            timeractive = true; 
+                            StartCoroutine(RotateMe(axis * negativePositiveSwitch, 1f));
+
+                       
+
+                            if (infiniteRotationInOneDirection == false && BackTimerActivated == false) //Die Rotation soll sich hin- und her bewegen
                             {
-                                if (angle > 0)
+                                foreach (float angle in angleList)
                                 {
-                                    negativePositiveSwitch = -negativePositiveSwitch;
-                                }
-                                else if (angle < 0)
-                                {
-                                    negativePositiveSwitch = -negativePositiveSwitch;
+                                    if (angle > 0)
+                                    {
+                                        negativePositiveSwitch = -negativePositiveSwitch;
+                                    }
+                                    else if (angle < 0)
+                                    {
+                                        negativePositiveSwitch = -negativePositiveSwitch;
+                                    }
                                 }
                             }
                         }
@@ -150,11 +162,11 @@ public class ObjectRotationByClick : MonoBehaviour
         to *= Quaternion.Euler(axis * angle);
 
         //transform.rotation = Quaternion.Slerp(from, to, rotationSpeed * Time.deltaTime);
-
+        
         float timePassed = 0.0f;
         while (timePassed < duration)
         {
-            transform.rotation = Quaternion.Slerp(from, to, rotationSpeed * timePassed );  
+            transform.rotation = Quaternion.Slerp(from, to, rotationSpeed * timePassed);  
             timePassed += Time.deltaTime;
             yield return null;
             transform.rotation = to;

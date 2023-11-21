@@ -9,6 +9,8 @@ public class Plaetten : MonoBehaviour
     GameObject ausgeloesterPlaetter;
     GameObject erzwungenPlaetter;
 
+    int standsInKombi = 0;
+
     private void Update()
     {
         Plattmacher(); 
@@ -36,7 +38,7 @@ public class Plaetten : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (((other.gameObject.tag == "Plattmacher" && other.gameObject.GetComponent<ObjectRotationByClick>().rotatingProcess == true)))
+        if (other.gameObject.tag == "Plattmacher" && other.gameObject.GetComponent<ObjectRotationByClick>().rotatingProcess == true)
         {
             ausgeloesterPlaetter = other.gameObject;
             if(GameManager.instance.playerFlach == false)
@@ -45,8 +47,10 @@ public class Plaetten : MonoBehaviour
             }
             GameManager.instance.playerFlach = true;
         }
-        else if (other.gameObject.tag == "ErzwungenPlatt")
+        
+        if (other.gameObject.tag == "ErzwungenPlatt")
         {
+            Debug.Log("TRUEEE");
             erzwungenPlaetter = other.gameObject;
             if (GameManager.instance.playerFlach == false)
             {

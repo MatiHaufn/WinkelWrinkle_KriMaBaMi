@@ -5,13 +5,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float maxGroundSpeed;
     [SerializeField] float maxAirSpeed;
     [SerializeField] float jumpforce = 10f;
-    [SerializeField] float groundAcceleration = 10f;
-    [SerializeField] float groundDeceleration = 10f;
-    [SerializeField] float airAcceleration = 10f;
-    [SerializeField] float airDeceleration = 10f;
+    //[SerializeField] float groundAcceleration = 10f;
+    //[SerializeField] float groundDeceleration = 10f;
+    //[SerializeField] float airAcceleration = 10f;
+    //[SerializeField] float airDeceleration = 10f;
     [SerializeField] float turnSmoothTime = 0.1f;
     [SerializeField] float moveSpeed = 2; 
-    [SerializeField] private GroundTest groundTest; 
+    [SerializeField] private GroundTest groundTest;
 
     [SerializeField] Animator animator2D;
     [SerializeField] Animator animator3D;
@@ -29,7 +29,10 @@ public class PlayerMovement : MonoBehaviour
     float maxIdleTime = 20;
     int idleState = 0;
 
-    private void Awake() => _rigidbody = GetComponent<Rigidbody>();
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
@@ -123,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
             currentAnimator = animator3D;
         }
 
+        /*
         if(horizontal != 0 || vertical != 0)
         {
            currentAnimator.SetBool("runActive", true);
@@ -131,11 +135,11 @@ public class PlayerMovement : MonoBehaviour
         {
             currentAnimator.SetBool("runActive", false);
         }
-
+        */
         if (GameManager.instance.playerMoving)
         {
-            horizontal = Input.GetAxisRaw("Horizontal");
-            vertical = Input.GetAxisRaw("Vertical");
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
 
             if (GameManager.instance.playerFlach == true)
             {

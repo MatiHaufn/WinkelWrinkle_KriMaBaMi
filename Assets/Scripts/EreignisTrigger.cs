@@ -8,11 +8,11 @@ public class EreignisTrigger : MonoBehaviour
     [SerializeField] bool boxEinrasten = false; 
     [SerializeField] bool importantAngle = false; 
     [SerializeField] bool activateObject = false; 
-    [SerializeField] bool enableObject = false; 
+    [SerializeField] bool enableObject = false;
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject == objectOne)
+        if (other.gameObject == objectOne)
         {
             //Debug.Log("Distanz: " + Vector3.Distance(other.gameObject.transform.position, this.gameObject.transform.position));
             //Genutzt für: Eine Box soll an die richtige Stelle geschoben, darf sich danach nicht mehr bewegen oder verschoben werden

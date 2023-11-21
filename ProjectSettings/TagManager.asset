@@ -14,6 +14,7 @@ TagManager:
   - Checkpoint
   - Wall
   - Hinge1
+  - PlattmacherKombi
   layers:
   - Default
   - TransparentFX

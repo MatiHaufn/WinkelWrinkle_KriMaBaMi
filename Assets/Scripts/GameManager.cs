@@ -23,21 +23,24 @@ public class GameManager : MonoBehaviour
 
     bool gameIstZuEnde;
     bool levelIstGewonnen;
-  
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     private void Start()
     {
         gameScene = SceneManager.GetActiveScene();
 
         Player.transform.position = startPosition.transform.position; 
-
-        if (instance == null)
-        {
-            instance = this; 
-        }
-        else
-        {
-            Destroy(this.gameObject); 
-        }
 
         //Checkpoints for Respawn 
         Checkpoints.AddRange(GameObject.FindGameObjectsWithTag("Checkpoint"));
@@ -45,7 +48,6 @@ public class GameManager : MonoBehaviour
         lastCheckpoint = Player;
         lastCheckpoint.transform.position = playerCheckPointPosition;
         
-
         //rotatingObjectList = GameObject.FindGameObjectsWithTag("Drehplatte").ToList();
     }
 

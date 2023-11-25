@@ -15,6 +15,10 @@ TagManager:
   - Wall
   - Hinge1
   - PlattmacherKombi
+  - StayHereToGetFlat
+  - Ground
+  - ColliderZ
+  - ColliderX
   layers:
   - Default
   - TransparentFX

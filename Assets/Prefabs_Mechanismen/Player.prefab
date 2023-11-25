@@ -601,9 +601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 3421273930210901448}
   grounded: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  layersToStand: []
 --- !u!1 &6148371242559051789
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +676,6 @@ GameObject:
   - component: {fileID: 6148371242993445622}
   - component: {fileID: 3421273930210901448}
   - component: {fileID: 7112146974277623177}
-  - component: {fileID: 8461786243190213600}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -747,11 +744,8 @@ MonoBehaviour:
   maxGroundSpeed: 0
   maxAirSpeed: 0
   jumpforce: 8
-  groundAcceleration: 10
-  groundDeceleration: 10
-  airAcceleration: 10
-  airDeceleration: 10
   turnSmoothTime: 0.1
+  moveSpeed: 2
   groundTest: {fileID: 6131021916356553011}
   animator2D: {fileID: 357865275954111486}
   animator3D: {fileID: 6890966014185398710}
@@ -769,27 +763,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerThreeD: {fileID: 3227433242374697078}
   PlayerTwoD: {fileID: 7535644666090360980}
---- !u!95 &8461786243190213600
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6148371242993445617}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7df6442adc0dda94fbcd37c4a504c0e7, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2f8f5024c79a3194b9f382df63e4ed76, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6531089627872315355
 GameObject:
   m_ObjectHideFlags: 0

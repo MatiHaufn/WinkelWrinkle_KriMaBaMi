@@ -3,7 +3,7 @@ using UnityEngine;
 public class GroundTest : MonoBehaviour
 {
 
-    [SerializeField] PlayerMovement player; 
+    [SerializeField] PlayerMovement_new player; 
     [SerializeField] bool grounded;
     [SerializeField] LayerMask[] layersToStand; 
 
@@ -14,7 +14,6 @@ public class GroundTest : MonoBehaviour
             if ((layer.value & (1 << other.gameObject.layer)) != 0 )
             {
                 grounded = true;
-                player.TriggerLandAnimation(); 
             }
         }
     }

@@ -47,8 +47,6 @@ public class GameManager : MonoBehaviour
         playerCheckPointPosition = Player.transform.position; 
         lastCheckpoint = Player;
         lastCheckpoint.transform.position = playerCheckPointPosition;
-        
-        //rotatingObjectList = GameObject.FindGameObjectsWithTag("Drehplatte").ToList();
     }
 
     private void Update()

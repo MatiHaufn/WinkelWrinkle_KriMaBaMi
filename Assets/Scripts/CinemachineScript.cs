@@ -1,19 +1,10 @@
-﻿using UnityEngine;
-using Cinemachine;
-using System.Collections.Generic;
+﻿using Cinemachine;
+using UnityEngine;
 
 public class CinemachineScript : MonoBehaviour
 {
-    CinemachineVirtualCamera vcam;
+    [SerializeField] CinemachineVirtualCamera vcam;
 
-    public List<CinemachineVirtualCamera> CameraList = new List<CinemachineVirtualCamera>(); 
-    public List<GameManager> TriggerForCams = new List<GameManager>();
-   
-
-    private void Start()
-    {
-        vcam = gameObject.GetComponent<CinemachineVirtualCamera>(); 
-    }
     void Update()
     {
         if (GameManager.instance.playerFlach)

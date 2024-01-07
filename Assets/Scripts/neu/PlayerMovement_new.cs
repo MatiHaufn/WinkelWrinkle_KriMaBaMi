@@ -1,7 +1,5 @@
-using UnityEditor.Experimental.RestService;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerMovement_new : MonoBehaviour
 {
@@ -46,6 +44,8 @@ public class PlayerMovement_new : MonoBehaviour
     Vector2 mouseMovement; 
     Vector2 playerMovement; 
     float turnSmoothVelocity;
+    GameObject objToRotateActivate;
+    bool stayInTriggerToRotate = false;
 
     //Timer for Idle Animations 
     float idleTimer = 0;
@@ -55,7 +55,8 @@ public class PlayerMovement_new : MonoBehaviour
     //Ground Bool 
     [SerializeField] string[] tagsToStand;
     float raycastDistance; 
-    public bool isGrounded;
+    public bool isGrounded = true;
+    bool onFloor = false;
     Ray groundRay; 
 
     private void Start()
@@ -74,6 +75,8 @@ public class PlayerMovement_new : MonoBehaviour
 
     void Set2DSettings()
     {
+        stayInTriggerToRotate = false;
+        plattmacherTouched = false; 
         playerCollision2D.SetActive(true);
         playerCollision3D.SetActive(false); 
         myRigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
@@ -99,24 +102,22 @@ public class PlayerMovement_new : MonoBehaviour
 
     void GroundCheck()
     {
-        groundRay = new Ray(transform.position + (Vector3.up * 0.1f), Vector3.down);
+        groundRay = new Ray(transform.position + new Vector3(0,0.1f,0), Vector3.down);
         raycastDistance = 0.2f; 
 
         if (Physics.Raycast(groundRay, out RaycastHit hit, raycastDistance))
-        {
-            if (hit.collider.CompareTag(tagsToStand[0]) || hit.collider.CompareTag(tagsToStand[1]))
+        {   
+            foreach(string tag in tagsToStand)
             {
-                currentAnimator.SetBool("JumpStart", false);
-                isGrounded = true;
+                if (hit.collider.CompareTag(tagsToStand[0]) || hit.collider.CompareTag(tagsToStand[1]) || hit.collider.CompareTag(tagsToStand[2]))
+                {
+                    isGrounded = true;
+                }
+                else
+                {
+                    isGrounded = false;
+                }
             }
-            else
-            {
-                isGrounded = false;
-            }
-        }
-        else
-        {
-            isGrounded = false;
         }
         Debug.DrawRay(groundRay.origin, groundRay.direction * raycastDistance, isGrounded ? Color.green : Color.red);
     }
@@ -170,13 +171,15 @@ public class PlayerMovement_new : MonoBehaviour
 
         //Jump
 
-        if (isGrounded == true)
+        if (isGrounded && onFloor)
         {
+            currentAnimator.SetBool("JumpStart", false);
             if (jump.action.WasPressedThisFrame())
             {
                 if(myRigidbody.velocity.magnitude < maxJumpForce)
                 {
-                    Debug.Log("Jump");
+                    isGrounded = false;
+                    //Debug.Log("Jump");
                     currentAnimator.SetBool("JumpStart", true);
                     myRigidbody.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
                 }
@@ -189,10 +192,15 @@ public class PlayerMovement_new : MonoBehaviour
             objToStayActivate.GetComponent<StayHereToGetFlat_new>().PressedButton(); 
         }
 
+        if (interact.action.IsPressed() && objToRotateActivate != null && stayInTriggerToRotate)
+        {
+            objToRotateActivate.GetComponent<stayHereToRotate_new>().ActivatedRotationTrigger();
+        }
+
         if (GameManager.instance.playerFlach == false)
         {
             boxTrackRay = new Ray(transform.position + (transform.up * (transform.localScale.y / 2)), transform.forward);
-            currentBoxLayerMask = box3DLayer; 
+            currentBoxLayerMask = box3DLayer;
         }
         else
         {
@@ -270,6 +278,7 @@ public class PlayerMovement_new : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Plattmacher")
@@ -292,6 +301,14 @@ public class PlayerMovement_new : MonoBehaviour
             gameObject.GetComponent<Plattmacher_new>().Get3D(false, GameManager.instance.lastCheckpoint.transform.position);
         }
     }
+
+    public void Get2DPublic(GameObject flatTrigger)
+    {
+        GameManager.instance.playerFlach = true;
+        Set2DSettings();
+        gameObject.GetComponent<Plattmacher_new>().Get2D(flatTrigger.gameObject.GetComponent<StayHereToGetFlat_new>().wall2DStartPositionPlayer);
+    }
+   
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "StayHereToGetFlat")
@@ -303,6 +320,11 @@ public class PlayerMovement_new : MonoBehaviour
                 Set2DSettings(); 
                 gameObject.GetComponent<Plattmacher_new>().Get2D(other.gameObject.GetComponent<StayHereToGetFlat_new>().wall2DStartPositionPlayer);
             }
+        }
+        if (other.gameObject.tag == "StayHereToRotate")
+        {
+            objToRotateActivate = other.gameObject;
+            stayInTriggerToRotate = true; 
         }
 
         if (other.gameObject.tag == "Exit2D")
@@ -328,6 +350,12 @@ public class PlayerMovement_new : MonoBehaviour
             stayingAtColliderX = true;
             boxToInteract = other.gameObject.transform.parent.gameObject;
         }
+
+        if (other.gameObject.tag == "MovingPlatform")
+        {
+            Debug.Log("Moving Platform"); 
+            this.transform.SetParent(other.transform);
+        }
     }
     private void OnTriggerExit(Collider other)
     {
@@ -342,6 +370,38 @@ public class PlayerMovement_new : MonoBehaviour
         if (other.gameObject.tag == "Plattmacher")
         {
             plattmacherTouched = false;
+        }
+
+        if (other.gameObject.tag == "StayHereToRotate")
+        {
+            stayInTriggerToRotate = false;
+        }
+
+        if (other.gameObject.tag == "MovingPlatform")
+        {
+            Debug.Log("Moving Platform weg");
+            transform.SetParent(null);
+        }
+
+    }
+
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.tag == "Ground" || other.gameObject.tag == "Box" || other.gameObject.tag == "MovingPlatform")
+        {
+            onFloor = true;
+            isGrounded = true; 
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+      
+        if (other.gameObject.tag == "Ground" || other.gameObject.tag == "Box" || other.gameObject.tag == "MovingPlatform")
+        {
+            onFloor = false;
+            isGrounded = false; 
         }
     }
 

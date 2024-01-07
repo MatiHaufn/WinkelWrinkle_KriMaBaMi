@@ -49,13 +49,6 @@ public class GameManager : MonoBehaviour
         lastCheckpoint.transform.position = playerCheckPointPosition;
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-    }
     public void GameOver()
     {
         // ich habe das game verloren

@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: hochgeklappt
+    m_ConditionEvent: activated
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5220273406713434278}
@@ -65,7 +65,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: hochgeklappt
+    m_ConditionEvent: activated
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7436392630310997375}
@@ -90,7 +90,7 @@ AnimatorController:
   m_Name: VorhangMech (1)
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: hochgeklappt
+  - m_Name: activated
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0

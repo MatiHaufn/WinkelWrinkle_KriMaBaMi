@@ -8,7 +8,6 @@ public class Plaetten : MonoBehaviour
     GameObject ausgeloesterPlaetter;
     GameObject erzwungenPlaetter;
 
-    int standsInKombi = 0;
 
     private void Update()
     {

@@ -19,11 +19,12 @@ TagManager:
   - Ground
   - ColliderZ
   - ColliderX
+  - StayHereToRotate
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - BoxPushTrigger
   - Water
   - UI
   - Player
@@ -36,8 +37,8 @@ TagManager:
   - TwoDBox
   - Rotation
   - Highlight
-  - 
-  - 
+  - Losezone
+  - Checkpoint
   - 
   - 
   - 

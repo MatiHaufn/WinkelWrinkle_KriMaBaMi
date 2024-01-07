@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RotatingObjectByClick_new : MonoBehaviour
@@ -10,7 +8,13 @@ public class RotatingObjectByClick_new : MonoBehaviour
     float colliderTimer = 0;
     float maxColliderTimer = 1; 
     bool animationActive = false;
+    bool boolActive = false;
 
+    float cooldownTimer = 0; 
+    float maxCooldownTimer = 2;
+    bool readyToMove = true; 
+
+    
     private void Start()
     {
         myCollider = GetComponent<Collider>();
@@ -27,16 +31,40 @@ public class RotatingObjectByClick_new : MonoBehaviour
                 animationActive = false;
                 colliderTimer = 0; 
             }
-        }        
+        }
+
+        if(!readyToMove)
+        {
+            cooldownTimer += Time.deltaTime; 
+            if(cooldownTimer > maxCooldownTimer )
+            {
+                readyToMove = true;
+                cooldownTimer = 0; 
+            }
+        }
+
     }
 
     public void TriggerAnimation()
     {
         if (animator != null && !animationActive)
         {
+            animator.SetTrigger("AnimatorTrigger");
             animationActive = true; 
             myCollider.enabled = true; 
-            animator.SetTrigger("AnimatorTrigger");
+        }
+    }
+
+    public void SetAnimationBool()
+    {
+        if (readyToMove)
+        {
+            boolActive = !boolActive;
+            readyToMove = false;
+        }
+        if (animator != null && !animationActive)
+        {
+            animator.SetBool("activated", boolActive);
         }
     }
 }

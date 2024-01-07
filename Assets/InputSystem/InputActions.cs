@@ -181,6 +181,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a5337176-44e7-4add-886a-1ac89950bea2"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R-Trigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""d99d6864-fbaf-476a-ba88-f4eebb4f86b3"",
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",

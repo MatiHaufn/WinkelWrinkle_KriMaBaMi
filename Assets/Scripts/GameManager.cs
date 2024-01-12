@@ -11,11 +11,13 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject lastCheckpoint;
     [HideInInspector] public Scene gameScene; 
     [HideInInspector] public bool playerMoving = true;
+    public bool GameIsPaused = false;
 
     public GameObject Player;
     public GameObject vfxPoof;
     public GameObject startPosition;
     public bool playerFlach = false;
+    public bool secondCameraView; 
 
     [SerializeField] float restartDelay = 2f;
 

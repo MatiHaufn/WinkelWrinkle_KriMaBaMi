@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Animator animator2D;
     [SerializeField] Animator animator3D;
 
+    [SerializeField] ButtonUI_new buttonUISetup; 
+
     Animator currentAnimator;
 
     private bool isGrounded;

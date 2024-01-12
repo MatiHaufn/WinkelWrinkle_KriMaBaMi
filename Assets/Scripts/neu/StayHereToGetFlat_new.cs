@@ -47,7 +47,7 @@ public class StayHereToGetFlat_new : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "ErzwungenPlatt")
-        {
+        {           
             erzwungenPlatt = true;
         }
     }

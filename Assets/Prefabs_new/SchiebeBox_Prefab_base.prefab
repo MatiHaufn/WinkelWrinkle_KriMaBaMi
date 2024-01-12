@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 5545153776404782642}
   - component: {fileID: 6158378275338378018}
   m_Layer: 12
-  m_Name: SchiebeBox_Prefab 1
+  m_Name: SchiebeBox_Prefab_base
   m_TagString: Box
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,6 +561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pushColliders: []
   boxFlach: 0
+  plattAllowed: 1
 --- !u!114 &6158378275338378018
 MonoBehaviour:
   m_ObjectHideFlags: 0

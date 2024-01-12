@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class ObjectInTrigger_new : MonoBehaviour
 {
-    [SerializeField] GameObject triggerRotation;
+    [SerializeField] TriggerRotation_new triggerRotation;
+    [SerializeField] UIButtonActivator_new UIButtonScript;
 
     private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Box")
         {
-            triggerRotation.GetComponent<TriggerRotation_new>().ObjInPos(true);
+            triggerRotation.ObjInPos(true);
+            UIButtonScript.ObjInPos(true);
         }
     }
 
@@ -16,7 +18,8 @@ public class ObjectInTrigger_new : MonoBehaviour
     {
         if (other.tag == "Box")
         {
-            triggerRotation.GetComponent<TriggerRotation_new>().ObjInPos(false);
+            triggerRotation.ObjInPos(false);
+            UIButtonScript.ObjInPos(false);
         }
     }
 }

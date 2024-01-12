@@ -291,6 +291,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""100de722-a0d8-45b7-8a91-a7fc6dbe9e06"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""A-Button"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""43e966c0-4d1c-429a-a39e-cd7caf11c672"",
                     ""path"": ""<Gamepad>/dpad"",
                     ""interactions"": """",

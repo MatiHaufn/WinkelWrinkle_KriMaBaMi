@@ -10,6 +10,8 @@ public class PlayerMovement_new : MonoBehaviour
     [SerializeField] Animator animator3D;
     [SerializeField] Animator animator2D;
 
+    [SerializeField] ButtonUI_new buttonUISetup;
+
     int playerLayer = 6;
     int flatPlayerLayer = 10;
 
@@ -70,7 +72,10 @@ public class PlayerMovement_new : MonoBehaviour
     {
         IdleAnimation();
         GroundCheck();
-        Movement();
+        if(!GameManager.instance.GameIsPaused)
+        {
+            Movement();
+        }
     }
 
     void Set2DSettings()
@@ -279,10 +284,23 @@ public class PlayerMovement_new : MonoBehaviour
     }
 
 
+    public void ButtonAnimationSetup(bool activated, string boolName)
+    {
+        buttonUISetup.SetAnimationBool(activated, boolName);
+    }
+
+            
+
+    //RightButton LBox RShoulder
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.tag == "ErzwungenPlatt")
+        {
+            GameManager.instance.secondCameraView = true;
+        }
         if (other.gameObject.tag == "Plattmacher")
         {
+            GameManager.instance.secondCameraView = false;
             plattmacherTouched = true; 
         }
 

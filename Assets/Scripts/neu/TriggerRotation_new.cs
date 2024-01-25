@@ -27,7 +27,7 @@ public class TriggerRotation_new : MonoBehaviour
         {
             if (interact.action.IsPressed())
             {
-                Debug.Log("pressed");
+                //Debug.Log("pressed");
                 StartCoroutine(RotateObject(_rotatingObject));
             }
         }
@@ -56,7 +56,6 @@ public class TriggerRotation_new : MonoBehaviour
     IEnumerator RotateObject(GameObject box)
     {
         rotated = !rotated;
-        Debug.Log(rotated);
         box.GetComponent<Box_new>().ColliderRotated(rotated); 
         
         isRotating = true;

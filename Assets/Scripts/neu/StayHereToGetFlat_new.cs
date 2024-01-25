@@ -13,7 +13,8 @@ public class StayHereToGetFlat_new : MonoBehaviour
     GameObject currentBox; 
     bool boxStayingInPosition = false;
     bool stayingInPosition = false;
-    bool erzwungenPlatt = false; 
+    bool boxInErzwungenPlatt = false;
+    bool playerInErzwungenPlatt = false; 
     
     private void Update()
     {
@@ -22,15 +23,18 @@ public class StayHereToGetFlat_new : MonoBehaviour
             stayingInPosition = false;
         }
 
-        if(erzwungenPlatt)
+        if(boxInErzwungenPlatt)
         {
-            if(stayingInPosition)
-            {
-                GameManager.instance.Player.GetComponent<PlayerMovement_new>().Get2DPublic(this.gameObject);
-            }
             if (boxStayingInPosition && currentBox != null)
             {
                 currentBox.GetComponent<Box_new>().Get2DPublic(this.gameObject);
+            }
+        }
+        if (playerInErzwungenPlatt)
+        {
+            if (stayingInPosition)
+            {
+                GameManager.instance.Player.GetComponent<PlayerMovement_new>().Get2DPublic(this.gameObject);
             }
         }
     }
@@ -44,23 +48,31 @@ public class StayHereToGetFlat_new : MonoBehaviour
         }
     }
 
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "ErzwungenPlatt")
-        {           
-            erzwungenPlatt = true;
-        }
+        //if (other.gameObject.tag == "ErzwungenPlatt")
+        //{           
+        //    erzwungenPlatt = true;
+        //}
     }
+    
+
     private void OnTriggerStay(Collider other)
     {
+        //Debug.Log(other.name); 
         if (other.gameObject.tag == "Player")
         {
             stayingInPosition = true;
+            if(other.gameObject.GetComponent<PlayerMovement_new>() != null)
+                playerInErzwungenPlatt = other.gameObject.GetComponent<PlayerMovement_new>().playerTouchesErzwungenplatt; 
             if (blinkingObjectMaterial != null)
                 blinkingObjectMaterial.SetFloat("_blinking", true ? 1f : 0f);
         }
-        if(other.gameObject.tag == "Box")
+        if (other.gameObject.tag == "Box")
         {
+            if (other.gameObject.GetComponent<Box_new>() != null)
+                boxInErzwungenPlatt = other.gameObject.GetComponent<Box_new>().touchesErzwungenPlatt;
             currentBox = other.gameObject; 
             boxStayingInPosition = true; 
         }
@@ -70,6 +82,7 @@ public class StayHereToGetFlat_new : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            playerInErzwungenPlatt = false; 
             stayingInPosition = false;
             if (blinkingObjectMaterial != null)
                 blinkingObjectMaterial.SetFloat("_blinking", false ? 1f : 0f);
@@ -77,17 +90,14 @@ public class StayHereToGetFlat_new : MonoBehaviour
         if(other.gameObject.tag == "Box")
         {
             boxStayingInPosition = false;
-        }
-        if (other.gameObject.tag == "ErzwungenPlatt")
-        {
-            erzwungenPlatt = false;
+            boxInErzwungenPlatt = false; 
         }
     }
 
     //used in PlayerMovement_new 
     public void PressedButton()
     {
-        if (stayingInPosition && !erzwungenPlatt)
+        if (stayingInPosition && !boxInErzwungenPlatt)
         {
             if (triggerAnimation)
             {

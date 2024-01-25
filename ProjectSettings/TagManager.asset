@@ -20,6 +20,8 @@ TagManager:
   - ColliderZ
   - ColliderX
   - StayHereToRotate
+  - UITrigger
+  - SetBoxToPosition
   layers:
   - Default
   - TransparentFX
@@ -39,8 +41,8 @@ TagManager:
   - Highlight
   - Losezone
   - Checkpoint
-  - 
-  - 
+  - StayHereToGetFlat
+  - Interaction
   - 
   - 
   - 

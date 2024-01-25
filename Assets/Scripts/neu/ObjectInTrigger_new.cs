@@ -10,7 +10,7 @@ public class ObjectInTrigger_new : MonoBehaviour
         if (other.tag == "Box")
         {
             triggerRotation.ObjInPos(true);
-            UIButtonScript.ObjInPos(true);
+            UIButtonScript.LBoxInPosition(true);
         }
     }
 
@@ -19,7 +19,7 @@ public class ObjectInTrigger_new : MonoBehaviour
         if (other.tag == "Box")
         {
             triggerRotation.ObjInPos(false);
-            UIButtonScript.ObjInPos(false);
+            UIButtonScript.LBoxInPosition(false);
         }
     }
 }

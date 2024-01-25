@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Box_new : MonoBehaviour
 {
+    public bool touchesErzwungenPlatt = false;
+
     [SerializeField] GameObject[] pushColliders; 
     [SerializeField] bool boxFlach = false;
     [SerializeField] bool plattAllowed = true; 
@@ -17,6 +19,7 @@ public class Box_new : MonoBehaviour
 
     bool stayingInExit = false;
     bool plattmacherTouched = false;
+
 
     private void Start()
     {
@@ -40,8 +43,9 @@ public class Box_new : MonoBehaviour
     void Set2DSettings()
     {
         gameObject.layer = flatBoxLayer;
+        touchesErzwungenPlatt = false;
 
-        foreach(GameObject obj in pushColliders)
+        foreach (GameObject obj in pushColliders)
         {
             if(obj.tag == "ColliderZ")
             {
@@ -52,7 +56,7 @@ public class Box_new : MonoBehaviour
 
     public void ColliderRotated(bool rotated)
     {
-        Debug.Log("Wird ausgelöst");
+        //Debug.Log("Wird ausgelöst");
         foreach(GameObject obj in pushColliders)
         {
             if (rotated)
@@ -123,16 +127,14 @@ public class Box_new : MonoBehaviour
         {
             plattmacherTouched = true;
         }
-        
+
         if (other.gameObject.tag == "Losezone")
         {
-            Debug.Log("Box Lose");
             Vector3 newStartPosition = startPosition + Vector3.up * 2;
             Set3DSettings(newStartPosition, false);
             boxFlach = false;
         }
     }
-
     public void Get2DPublic(GameObject flatTrigger)
     {
         gameObject.GetComponent<Plattmacher_new>().Get2D(flatTrigger.gameObject.GetComponent<StayHereToGetFlat_new>().wall2DStartPositionBox);
@@ -145,13 +147,16 @@ public class Box_new : MonoBehaviour
         if (other.gameObject.tag == "StayHereToGetFlat" && plattAllowed)
         {
             if (plattmacherTouched && boxFlach == false)
-            {
+            { 
                 gameObject.GetComponent<Plattmacher_new>().Get2D(other.gameObject.GetComponent<StayHereToGetFlat_new>().wall2DStartPositionBox);
                 Set2DSettings(); 
                 boxFlach = true;
             }
         }
-
+        if (other.gameObject.tag == "ErzwungenPlatt")
+        {
+            touchesErzwungenPlatt = true;
+        }
         if (other.gameObject.tag == "Exit2D" && plattAllowed)
         {
             Debug.Log("Stay in Exit");
@@ -161,6 +166,10 @@ public class Box_new : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.tag == "ErzwungenPlatt")
+        {
+            touchesErzwungenPlatt = false;
+        }
         if (other.gameObject.tag == "Exit2D")
         {
             stayingInExit = false;

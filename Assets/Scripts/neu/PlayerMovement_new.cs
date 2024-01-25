@@ -6,6 +6,7 @@ public class PlayerMovement_new : MonoBehaviour
     public InputActionReference leftStick, rightStick, jump, interact, start, push; 
     public GameObject playerCollision2D;
     public GameObject playerCollision3D;
+    public bool playerTouchesErzwungenplatt = false;
 
     [SerializeField] Animator animator3D;
     [SerializeField] Animator animator2D;
@@ -19,6 +20,11 @@ public class PlayerMovement_new : MonoBehaviour
     [SerializeField] float jumpforce = 10f;
     [SerializeField] float turnSmoothTime = 0.1f;
     [SerializeField] float moveSpeed = 2;
+
+    [SerializeField] float _maxJumpCooldown = 0.2f;
+    float _jumpCooldown = 0;
+    bool _jumpCooldownActive = false; 
+    bool _canJumpAgain = true; 
 
     Animator currentAnimator;
     Rigidbody myRigidbody;
@@ -41,6 +47,7 @@ public class PlayerMovement_new : MonoBehaviour
     //Plattmacher
     bool plattmacherTouched = false;
 
+
     //floats for Controls 
     GameObject objToStayActivate;
     Vector2 mouseMovement; 
@@ -58,8 +65,9 @@ public class PlayerMovement_new : MonoBehaviour
     [SerializeField] string[] tagsToStand;
     float raycastDistance; 
     public bool isGrounded = true;
+    public bool isJumping = false;
     bool onFloor = false;
-    Ray groundRay; 
+    Ray groundRay;
 
     private void Start()
     {
@@ -80,6 +88,7 @@ public class PlayerMovement_new : MonoBehaviour
 
     void Set2DSettings()
     {
+        playerTouchesErzwungenplatt = false;
         stayInTriggerToRotate = false;
         plattmacherTouched = false; 
         playerCollision2D.SetActive(true);
@@ -175,19 +184,43 @@ public class PlayerMovement_new : MonoBehaviour
         }
 
         //Jump
-
         if (isGrounded && onFloor)
         {
-            currentAnimator.SetBool("JumpStart", false);
-            if (jump.action.WasPressedThisFrame())
+            currentAnimator.SetBool("isGrounded", true);
+            currentAnimator.SetBool("isJumping", false);
+            currentAnimator.SetBool("isFalling", false);
+            isJumping = false; 
+            if (jump.action.WasPressedThisFrame() && _canJumpAgain)
             {
-                if(myRigidbody.velocity.magnitude < maxJumpForce)
-                {
+                _jumpCooldownActive = true;
+                _canJumpAgain = false; 
+                if (myRigidbody.velocity.magnitude < maxJumpForce)
+                { 
+                    
                     isGrounded = false;
                     //Debug.Log("Jump");
-                    currentAnimator.SetBool("JumpStart", true);
+                    currentAnimator.SetBool("isJumping", true);
+                    isJumping = true; 
                     myRigidbody.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
                 }
+            }
+        }
+        else
+        {
+            currentAnimator.SetBool("isGrounded", false);
+            if (myRigidbody.velocity.magnitude < maxJumpForce || myRigidbody.velocity.y < -2)
+            {
+                currentAnimator.SetBool("isFalling", true);
+            }
+        }
+        
+        if(_jumpCooldownActive)
+        {
+            _jumpCooldown += Time.deltaTime; 
+            if(_jumpCooldown > _maxJumpCooldown)
+            {
+                _canJumpAgain = true;
+                _jumpCooldown = 0;
             }
         }
 
@@ -294,8 +327,13 @@ public class PlayerMovement_new : MonoBehaviour
     //RightButton LBox RShoulder
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.tag == "UITrigger")
+        {
+            other.gameObject.GetComponent<UIButtonActivator_new>().PlayerInTrigger(true);
+        }
         if(other.gameObject.tag == "ErzwungenPlatt")
         {
+            playerTouchesErzwungenplatt = true;
             GameManager.instance.secondCameraView = true;
         }
         if (other.gameObject.tag == "Plattmacher")
@@ -338,6 +376,7 @@ public class PlayerMovement_new : MonoBehaviour
                 Set2DSettings(); 
                 gameObject.GetComponent<Plattmacher_new>().Get2D(other.gameObject.GetComponent<StayHereToGetFlat_new>().wall2DStartPositionPlayer);
             }
+
         }
         if (other.gameObject.tag == "StayHereToRotate")
         {
@@ -371,12 +410,15 @@ public class PlayerMovement_new : MonoBehaviour
 
         if (other.gameObject.tag == "MovingPlatform")
         {
-            Debug.Log("Moving Platform"); 
             this.transform.SetParent(other.transform);
         }
     }
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.tag == "UITrigger")
+        {
+            other.gameObject.GetComponent<UIButtonActivator_new>().PlayerInTrigger(false);
+        }
         if (other.gameObject.tag == "ColliderZ")
         {
             stayingAtColliderZ = false;
@@ -389,7 +431,10 @@ public class PlayerMovement_new : MonoBehaviour
         {
             plattmacherTouched = false;
         }
-
+        if (other.gameObject.tag == "ErzwungenPlatt")
+        {
+            playerTouchesErzwungenplatt = false;
+        }
         if (other.gameObject.tag == "StayHereToRotate")
         {
             stayInTriggerToRotate = false;
@@ -397,7 +442,6 @@ public class PlayerMovement_new : MonoBehaviour
 
         if (other.gameObject.tag == "MovingPlatform")
         {
-            Debug.Log("Moving Platform weg");
             transform.SetParent(null);
         }
 

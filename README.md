@@ -2,6 +2,8 @@
 
 # WinkelWrinkle_KriMaBaMi
 
+[You can play the game here!](https://matihaufn.itch.io/winkel-wrinkle)
+
 This is project from 2020 created by a group of four people (Kristoffer Nagel, Sebastian Voigt, Michelle Than and me) during my Game Design study at the HTW Berlin. 
 Since this is my first bigger Unity project, I plan to work on the old code and see, how I improved since then. 
 

@@ -255,7 +255,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     - _b_texture: 1
-    - _blinking: 1
+    - _blinking: 0
     - _blinkingSpeed: 6
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

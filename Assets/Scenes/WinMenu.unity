@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.09322711, g: 0.09433961, b: 0.087664634, a: 1}
+    m_HighlightedColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
     m_PressedColor: {r: 0.16037738, g: 0.14449094, b: 0.14449094, a: 0.80784315}
     m_SelectedColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.09322711, g: 0.09433961, b: 0.087664634, a: 1}
+    m_HighlightedColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
     m_PressedColor: {r: 0.16037738, g: 0.14449094, b: 0.14449094, a: 0.80784315}
     m_SelectedColor: {r: 0.6901961, g: 0.6901961, b: 0.6901961, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
@@ -964,7 +964,6 @@ GameObject:
   - component: {fileID: 929012888}
   - component: {fileID: 929012887}
   - component: {fileID: 929012886}
-  - component: {fileID: 929012885}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -972,18 +971,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &929012885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929012884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0fe2296c05d2024ea0c90e513e74215, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &929012886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,11 +988,11 @@ MonoBehaviour:
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: ec8d3e258a9c6364fa54100211a25133, type: 3}
-  m_PointAction: {fileID: 0}
+  m_PointAction: {fileID: -6001047584634650586, guid: ec8d3e258a9c6364fa54100211a25133, type: 3}
   m_MoveAction: {fileID: 482818893728372860, guid: ec8d3e258a9c6364fa54100211a25133, type: 3}
   m_SubmitAction: {fileID: -7540464344784813591, guid: ec8d3e258a9c6364fa54100211a25133, type: 3}
   m_CancelAction: {fileID: 2761829962659855312, guid: ec8d3e258a9c6364fa54100211a25133, type: 3}
-  m_LeftClickAction: {fileID: 0}
+  m_LeftClickAction: {fileID: -4426701415484355657, guid: ec8d3e258a9c6364fa54100211a25133, type: 3}
   m_MiddleClickAction: {fileID: 0}
   m_RightClickAction: {fileID: 0}
   m_ScrollWheelAction: {fileID: 0}

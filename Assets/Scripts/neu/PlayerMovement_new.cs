@@ -194,7 +194,7 @@ public class PlayerMovement_new : MonoBehaviour
             {
                 _jumpCooldownActive = true;
                 _canJumpAgain = false; 
-                if (myRigidbody.velocity.magnitude < maxJumpForce)
+                if (myRigidbody.linearVelocity.magnitude < maxJumpForce)
                 { 
                     
                     isGrounded = false;
@@ -208,7 +208,7 @@ public class PlayerMovement_new : MonoBehaviour
         else
         {
             currentAnimator.SetBool("isGrounded", false);
-            if (myRigidbody.velocity.magnitude < maxJumpForce || myRigidbody.velocity.y < -2)
+            if (myRigidbody.linearVelocity.magnitude < maxJumpForce || myRigidbody.linearVelocity.y < -2)
             {
                 currentAnimator.SetBool("isFalling", true);
             }

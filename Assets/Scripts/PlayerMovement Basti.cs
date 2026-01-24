@@ -24,27 +24,27 @@ public class PlayerController : MonoBehaviour
     {
         dirX = Input.GetAxis("Horizontal") * moveSpeed;
 
-        if (Input.GetButtonDown("Jump") && rb.velocity.y > -0.1 && rb.velocity.y < 0.1)
+        if (Input.GetButtonDown("Jump") && rb.linearVelocity.y > -0.1 && rb.linearVelocity.y < 0.1)
             rb.AddForce(Vector2.up * 500f);
 
-        if (Mathf.Abs(dirX) > 0 && rb.velocity.y > -0.1 && rb.velocity.y < 0.1)
+        if (Mathf.Abs(dirX) > 0 && rb.linearVelocity.y > -0.1 && rb.linearVelocity.y < 0.1)
         {
             anim.SetBool("isRunning", true);
         }
         else
             anim.SetBool("isRunning", false);
 
-        if (rb.velocity.y > -0.1 && rb.velocity.y < 0.1)
+        if (rb.linearVelocity.y > -0.1 && rb.linearVelocity.y < 0.1)
         {
             anim.SetBool("isJumping", false);
             anim.SetBool("isFalling", false);
         }
 
-        if (rb.velocity.y > 0.1)
+        if (rb.linearVelocity.y > 0.1)
             anim.SetBool("isJumping", true);
 
 
-        if (rb.velocity.y < -0.1)
+        if (rb.linearVelocity.y < -0.1)
         {
             anim.SetBool("isJumping", false);
             anim.SetBool("isFalling", true);
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(dirX, rb.velocity.y);
+        rb.linearVelocity = new Vector2(dirX, rb.linearVelocity.y);
     }
 
     private void LateUpdate()
